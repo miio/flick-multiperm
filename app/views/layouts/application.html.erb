@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FlickMultiperm</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<a href="/users/auth/flickr">sign in</a>
+<a href="/user_sets/new">add my sets</a>
+<%= yield %>
+
+</body>
+</html>

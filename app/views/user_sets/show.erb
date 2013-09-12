@@ -1,0 +1,38 @@
+<h2> Public </h2>
+<%= form_tag '', method: :get do |f| %>
+  <%= text_field :search, :q, value: @q %>
+  <%= submit_tag 'search' %>
+<% end %>
+<% @public_photos.each do |photo| %>
+  <%= "#{photo.id} #{photo.title}" %><br />
+  <%= form_for :user_photo, url: hide_user_photos_path  do |f| %>
+    <%= f.hidden_field :id, value: photo.id %>
+    <%= f.submit 'hide' %>
+  <% end %>
+<% end %>
+
+
+<h2> Private </h2>
+
+<% @private_photos.each do |photo| %>
+  <%= "#{photo.id} #{photo.title}" %><br />
+  <%= form_for :user_photo, url: remove_user_photos_path  do |f| %>
+    <%= f.hidden_field :id, value: photo.id %>
+    <%= f.submit 'Remove from set' %>
+  <% end %>
+  <%= form_for :user_photo, url: publish_user_photos_path  do |f| %>
+    <%= f.hidden_field :id, value: photo.id %>
+    <%= f.submit 'Publish to set' %>
+  <% end %>
+  <hr />
+<% end %>
+
+<h2>Removed</h2>
+<% @removed_photos.each do |photo| %>
+  <%= "#{photo.id} modify: #{photo.updated_at}" %><br />
+  <%= form_for :user_photo, url: restore_user_photos_path  do |f| %>
+    <%= f.hidden_field :id, value: photo.id %>
+    <%= f.submit 'Restore to set' %>
+  <% end %>
+  <hr />
+<% end %>

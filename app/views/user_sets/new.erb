@@ -1,0 +1,10 @@
+<p>
+<% @sets.each do |set| %>
+  <%= "#{set.id} #{set.title} #{set.photos}" %><br />
+  <%= form_for :user_set, url: user_sets_path  do |f| %>
+    <%= f.hidden_field :id, value: set.id %>
+    <%= f.hidden_field :title, value: set.title %>
+    <%= f.submit 'Add' %>
+  <% end %>
+<% end %>
+</p>
