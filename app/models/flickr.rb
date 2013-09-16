@@ -26,7 +26,11 @@ class Flickr
 
   def photos_with_modify_record  set, privacy, query
     counts = @obj.photosets.getInfo(photoset_id: set.id).count_photos
-    photos = @obj.photosets.getPhotos(photoset_id: set.id, privacy_filter: privacy).photo
+    photos = []
+    (counts.to_f / self.class::API_PER_PAGE.to_f).ceil.times.each do |page|
+      photos << @obj.photosets.getPhotos(photoset_id: set.id, privacy_filter: privacy, page: (page + 1)).photo
+    end
+    photos = photos.flatten
     user_photos = UserPhoto.where(id: photos.map{|p| p.id}).pluck(:id)
 
     ActiveRecord::Base.transaction do
