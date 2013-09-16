@@ -16,10 +16,11 @@ class UserSetsController < ApplicationController
   def show
     set = UserSet.find params[:id]
     flick = Flickr.new set.user
-    @public_photos = flick.photos_with_modify_record set, Flickr::PRIVACY_PUBLIC, params.require(:search).permit(:q)[:q]
-    @private_photos = flick.photos_with_modify_record set, Flickr::PRIVACY_PRIVATE, params.require(:search).permit(:q)[:q]
+
+    @q = params[:search][:q] if params[:search]
+    @public_photos = flick.photos_with_modify_record set, Flickr::PRIVACY_PUBLIC, @q
+    @private_photos = flick.photos_with_modify_record set, Flickr::PRIVACY_PRIVATE, @q
     @removed_photos = flick.removed_photos set
-    @q = params.require(:search).permit(:q)[:q]
     
   end
 
